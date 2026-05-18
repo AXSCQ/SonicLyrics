@@ -1,5 +1,5 @@
 {
-  "name": "@axscq/soniclyrics",
+  "name": "soniclyrics",
   "version": "1.0.0",
   "description": "Word-level lyrics synchronization for audio-reactive web experiences. Integrates with SonicMotion.",
   "main": "src/soniclyrics.js",
