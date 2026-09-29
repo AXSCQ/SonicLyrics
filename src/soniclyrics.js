@@ -11,6 +11,7 @@ import { WordScheduler } from './word-scheduler.js';
 import { LineTracker }   from './line-tracker.js';
 import { TagDispatcher } from './tag-dispatcher.js';
 import { DOMRenderer }   from './dom-renderer.js';
+import { LyricsTimeline } from './lyrics-timeline.js';
 
 class SonicLyricsInstance {
     /**
@@ -304,8 +305,17 @@ const SonicLyrics = {
         return new SonicLyricsInstance(config);
     },
 
-    version: '1.0.0'
+    /**
+     * Seek-safe, query-by-time view of a lyrics object (for render loops).
+     * @param {object} data - lyrics.json contents
+     * @returns {LyricsTimeline}
+     */
+    timeline(data) {
+        return new LyricsTimeline(data);
+    },
+
+    version: '1.1.0'
 };
 
 export default SonicLyrics;
-export { SonicLyricsInstance, SonicLyrics };
+export { SonicLyricsInstance, SonicLyrics, LyricsTimeline };

@@ -1,6 +1,6 @@
 {
   "name": "soniclyrics",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Word-level lyrics synchronization for audio-reactive web experiences. Integrates with SonicMotion.",
   "main": "src/soniclyrics.js",
   "module": "src/soniclyrics.js",
@@ -18,7 +18,7 @@
     "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "dependencies": {
-    "whisper-node": "^1.1.3"
+    "whisper-node": "^1.1.1"
   },
   "devDependencies": {},
   "repository": {
