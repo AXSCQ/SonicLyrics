@@ -45,7 +45,7 @@ const LINE_TAIL = 0.3;          // s: a phrase stays visible a bit after its las
  */
 
 /** Repair Whisper timing inside one line (words sorted by start). */
-function repairTiming(rawWords) {
+export function repairTiming(rawWords) {
     const words = [];
     for (let i = 0; i < rawWords.length; ) {
         let j = i;

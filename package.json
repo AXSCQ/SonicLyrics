@@ -1,6 +1,6 @@
 {
   "name": "soniclyrics",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Word-level lyrics synchronization for audio-reactive web experiences. Integrates with SonicMotion.",
   "main": "src/soniclyrics.js",
   "module": "src/soniclyrics.js",
@@ -9,20 +9,31 @@
     "soniclyrics": "./bin/soniclyrics.js"
   },
   "keywords": [
-    "lyrics", "synchronization", "karaoke", "audio-reactive", "sonicmotion",
-    "word-timing", "whisper", "music", "web-audio"
+    "lyrics",
+    "synchronization",
+    "karaoke",
+    "audio-reactive",
+    "sonicmotion",
+    "word-timing",
+    "whisper",
+    "music",
+    "web-audio"
   ],
   "author": "axscq",
   "license": "MIT",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "node --test \"test/*.test.js\""
   },
-  "dependencies": {
-    "whisper-node": "^1.1.1"
-  },
-  "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/axscq/soniclyrics"
-  }
+    "url": "https://github.com/AXSCQ/SonicLyrics"
+  },
+  "optionalDependencies": {
+    "whisper-node": "^1.1.1"
+  },
+  "files": [
+    "src/",
+    "bin/",
+    "README.md"
+  ]
 }

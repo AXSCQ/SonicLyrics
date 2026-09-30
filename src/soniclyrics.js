@@ -4,7 +4,7 @@
  * Integrates with SonicMotion via currentTime polling at 60fps.
  * Fires callbacks for individual words, lines, and user-defined tags.
  *
- * @version 1.0.0
+ * @version 1.2.0
  */
 
 import { WordScheduler } from './word-scheduler.js';
@@ -43,10 +43,16 @@ class SonicLyricsInstance {
         this._lineQueue     = [];
         this._phraseListeners = new Map();
 
-        // Load if src provided
-        if (config.src) {
-            this._loadSource(config.src);
-        }
+        // Load if src provided. `ready` resolves when loaded; a failed load
+        // is reported there (and in the console) instead of an unhandled rejection.
+        this.error = null;
+        this.ready = config.src
+            ? this._loadSource(config.src).then(() => this, (e) => {
+                this.error = e;
+                console.error(e);
+                return this;
+            })
+            : Promise.resolve(this);
     }
 
     // ── Public API ──────────────────────────────────────────────────────────
@@ -71,10 +77,10 @@ class SonicLyricsInstance {
             this._wordQueue.push(fn);
             return () => { this._wordQueue = this._wordQueue.filter(f => f !== fn); };
         }
-        return this._scheduler.onWord((word) => {
+        return this._scheduler.onWord((word, index) => {
             this._tagDispatch.dispatch(word); // Route tags
-            if (this._renderer) this._renderer.renderWord(word, this._scheduler._cursor);
-            fn(word);
+            if (this._renderer) this._renderer.renderWord(word, index);
+            fn(word, index);
         });
     }
 
@@ -220,7 +226,11 @@ class SonicLyricsInstance {
 
         this._lyricsData = data;
         this._scheduler.load(data.words ?? []);
-        this._lineTracker.load(data.lines ?? []);
+        // lyrics.json from Whisper has no `lines`, only a line index per word:
+        // build them from the words (same phrases LyricsTimeline shows)
+        this._lineTracker.load(data.lines ?? new LyricsTimeline(data).getAllLines().map(l => ({
+            id: l.lineIndex, text: l.text, start: l.start, end: l.end, words: l.words,
+        })));
         this._phrases = data.phrases ?? [];
         this._activePhraseIds = new Set();
         this._loaded = true;
@@ -314,7 +324,7 @@ const SonicLyrics = {
         return new LyricsTimeline(data);
     },
 
-    version: '1.1.0'
+    version: '1.2.0'
 };
 
 export default SonicLyrics;
